@@ -1,0 +1,30 @@
+# Maven
+target/
+*.jar
+*.war
+*.ear
+.flattened-pom.xml
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+*.iml
+*.iws
+
+# Spring Boot
+.gradle
+.gradle/
+build/
+*.log
+
+# Environment
+.env
+.env.local
+
+# OS
+Thumbs.db
+.DS_Store
