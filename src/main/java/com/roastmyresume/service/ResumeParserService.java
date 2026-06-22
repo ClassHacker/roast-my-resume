@@ -1,8 +1,10 @@
 package com.roastmyresume.service;
 
 import com.roastmyresume.model.Resume;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import java.io.InputStream;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,11 +25,11 @@ public class ResumeParserService {
      * Extract text from PDF file using Apache PDFBox
      */
     private String extractTextFromPDF(MultipartFile file) throws IOException {
-        try (PDDocument document = PDDocument.load(file.getInputStream())) {
+        try (InputStream is = file.getInputStream(); PDDocument document = Loader.loadPDF(is.readAllBytes())) {
             if (document.isEncrypted()) {
                 document.setAllSecurityToBeRemoved(true);
             }
-            
+
             PDFTextStripper stripper = new PDFTextStripper();
             return stripper.getText(document);
         }

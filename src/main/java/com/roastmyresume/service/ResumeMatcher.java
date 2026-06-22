@@ -3,7 +3,7 @@ package com.roastmyresume.service;
 import com.roastmyresume.model.AnalysisResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.messages.UserMessage;
-import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.ChatClient;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +11,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ResumeMatcher {
 
-    private final ChatModel chatModel;
+    private final ChatClient chatClient;
 
     /**
      * Analyze resume against job description using Ollama
      */
     public AnalysisResult analyzeResumeAgainstJobDescription(String resumeContent, String jobDescription) {
         String prompt = buildAnalysisPrompt(resumeContent, jobDescription);
-        String response = chatModel.call(new Prompt(new UserMessage(prompt))).getResult().getOutput().getContent();
+        // call the Spring AI ChatClient with a Prompt containing a single UserMessage
+        String response = chatClient.call(new Prompt(new UserMessage(prompt))).getResult().getOutput().getContent();
         return parseAnalysisResponse(response);
     }
 
